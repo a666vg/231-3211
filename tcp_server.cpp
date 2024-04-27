@@ -16,12 +16,12 @@ TcpServer::TcpServer(QObject *parent) : QObject(parent)
 
     if (!mTcpServer->listen(QHostAddress::Any, 33333)) // Прослушивание сервером всех адресов и порта 33333
     {
-        qDebug() << "Server is not started"; // Если не прослушивается
+        qDebug() << "Server is not started\r\n"; // Если не прослушивается
     }
     else
     {
         //server_status=1; // Установление статуса сервера на 1
-        qDebug() << "Server is started"; // Если прослушивается
+        qDebug() << "Server is started\r\n"; // Если прослушивается
     }
 }
 
@@ -33,7 +33,7 @@ void TcpServer::slotNewConnection()
     connect(mTcpSocket, &QTcpSocket::readyRead,this,&TcpServer::slotServerRead); // Соединение сигнала готовности к чтению со слотом чтения сообщений
     connect(mTcpSocket,&QTcpSocket::disconnected,this,&TcpServer::slotClientDisconnected); // Соединение сигнала и слота отключения клиента
 
-    mTcpSocket->write("Server connected!"); // Отправка сокету сообщения
+    mTcpSocket->write("Server connected!\r\n"); // Отправка сокету сообщения
     // }
 }
 

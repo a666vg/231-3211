@@ -23,4 +23,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     functions_for_server.h \
+    singleton.h \
     tcp_server.h
