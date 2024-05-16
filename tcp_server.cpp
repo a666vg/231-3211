@@ -64,7 +64,7 @@ void TcpServer::slotServerRead()
 
         if (arr == "\x01") // Если конец строки
         {
-            socket->write(res.toUtf8()); // Отправка проанализированного результата
+            socket->write(res.toUtf8()); // Отправка результата
             res = ""; // Обнуление строки
         }
         else // Если не конец строки
