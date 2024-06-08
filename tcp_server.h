@@ -1,31 +1,54 @@
 #ifndef TCP_SERVER_H
 #define TCP_SERVER_H
 
-#include <QCoreApplication> // Для базовых функций QT
-#include <QObject> // Для работы сигналов и слотов
-#include <QString> // Для работы со строками
-#include <Qmap> // Для работы со словарями
-#include <QTcpServer> // Для реализации сервера по протоколу TCP
-#include <QTcpSocket> // Для работы с сокетами (ip + порт)
-#include <QtNetwork> // Для работы с сетью
-#include <QByteArray> // Для работы с пригодными к передаче данными
-#include <QDebug> // Для вывода сообщений в консоль
+#include <QCoreApplication>
+#include <QObject>
+#include <QString>
+#include <QMap>
+#include <QTcpServer>
+#include <QTcpSocket>
+#include <QtNetwork>
+#include <QByteArray>
+#include <QDebug>
 
-class TcpServer : public QObject // Публичный наследник класса QObject
+/**
+ * @brief Class representing a TCP server.
+ */
+class TcpServer : public QObject
 {
-    Q_OBJECT // Для включения сигнально-слотовой связи для класса
+    Q_OBJECT
+
 public:
-    explicit TcpServer(QObject* parent = nullptr); // Конструктор сервера
-    ~TcpServer(); // Деструктор сервера
+    /**
+     * @brief Constructs a TCP server.
+     * @param parent Parent object (default is nullptr).
+     */
+    explicit TcpServer(QObject* parent = nullptr);
+
+    /**
+     * @brief Destructor.
+     */
+    ~TcpServer();
 
 public slots:
-    void slotNewConnection(); // Слот нового подключения клиента
-    void slotClientDisconnected(); // Слот отключения клиента
-    void slotServerRead(); // Слот чтения сервера
+    /**
+     * @brief Slot for handling new client connections.
+     */
+    void slotNewConnection();
+
+    /**
+     * @brief Slot for handling client disconnections.
+     */
+    void slotClientDisconnected();
+
+    /**
+     * @brief Slot for reading data from clients.
+     */
+    void slotServerRead();
 
 private:
-    QTcpServer* mTcpServer; // Сервер
-    QMap<int, QTcpSocket*> mSockets; // Все сокеты, подключенные к серверу
+    QTcpServer* mTcpServer; ///< The TCP server
+    QMap<int, QTcpSocket*> mSockets; ///< Map of connected client sockets
 };
 
 #endif // TCP_SERVER_H

@@ -1,20 +1,34 @@
 #ifndef FUNCTIONS_FOR_SERVER_H
 #define FUNCTIONS_FOR_SERVER_H
 
+#include <sstream>
+#include <iomanip>
+#include <iostream>
+#include <string>
 #include <QString>
 #include <QStringList>
 #include <QByteArray>
 #include <QCryptographicHash>
 #include <QPointF>
 
+/**
+ * @brief Utility class providing various server-related functions.
+ */
 class FunctionsForServer
 {
 public:
-    static QByteArray parse(QString data); // Анализ запросов
+    /**
+     * @brief Parses the given data.
+     * @param data The data to parse.
+     * @return Parsed data as QByteArray.
+     */
+    static QByteArray parse(QString data);
 
 private:
-    constexpr static const std::array<uint32_t, 64> k =
-    {
+    /**
+     * @brief Constants used in SHA-256 algorithm.
+     */
+    constexpr static const std::array<uint32_t, 64> k = {
         0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
         0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
         0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
@@ -33,19 +47,55 @@ private:
         0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
     };
 
-    constexpr static const std::array<uint32_t, 8> initial_hash_values =
-    {
+    /**
+     * @brief Initial hash values for SHA-256 algorithm.
+     */
+    constexpr static const std::array<uint32_t, 8> initial_hash_values = {
         0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
         0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
     };
 
-    static QByteArray auth(QString log, QString pass); // Авторизация
-    static QByteArray reg(QString log, QString pass, QString mail); // Регистрация
+    /**
+     * @brief Authenticates the user.
+     * @param log User login.
+     * @param pass User password.
+     * @return Authentication result as QByteArray.
+     */
+    static QByteArray auth(QString log, QString pass);
 
-    static QByteArray vigenereEncrypt(const QString& text, const QString& key); // Шифрование
-    static QChar shiftChar(QChar c, int shift); // Сдвиг символа
+    /**
+     * @brief Registers a new user.
+     * @param log User login.
+     * @param pass User password.
+     * @param mail User email.
+     * @return Registration result as QByteArray.
+     */
+    static QByteArray reg(QString log, QString pass, QString mail);
 
-    static QByteArray sha256(const std::string& message); // Хэширование
+    /**
+     * @brief Encrypts the text using Vigenere cipher.
+     * @param text The text to encrypt.
+     * @param key The encryption key.
+     * @return Encrypted text as QByteArray.
+     */
+    static QByteArray vigenereEncrypt(const QString& text, const QString& key);
+
+    /**
+     * @brief Shifts a character by a given number.
+     * @param c The character to shift.
+     * @param shift The number of positions to shift.
+     * @return Shifted character.
+     */
+    static QChar shiftChar(QChar c, int shift);
+
+    /**
+     * @brief Computes the SHA-256 hash of a message.
+     * @param message The message to hash.
+     * @return SHA-256 hash as QByteArray.
+     */
+    static QByteArray sha256(const std::string& message);
+
+    // SHA-256 algorithm helper functions
     static uint32_t rotr(uint32_t x, uint32_t n);
     static uint32_t choose(uint32_t e, uint32_t f, uint32_t g);
     static uint32_t majority(uint32_t a, uint32_t b, uint32_t c);
@@ -54,10 +104,30 @@ private:
     static std::vector<uint8_t> pad_message(const std::string& message);
     static std::array<uint32_t, 8> compute_hash(const std::vector<uint8_t>& padded_message);
 
-    static QByteArray splineMethod(const QString& pointA, const QString& pointB, const QString& pointC); // Метод сплайнов
-    static QPointF toPoint(const QString& point); // Конвертация из QString в QPointF
+    /**
+     * @brief Computes spline for the given points.
+     * @param pointA First point as QString.
+     * @param pointB Second point as QString.
+     * @param pointC Third point as QString.
+     * @return Computed spline as QByteArray.
+     */
+    static QByteArray splineMethod(const QString& pointA, const QString& pointB, const QString& pointC);
 
-    static QByteArray gradientDescent(const QString& learningRate, const QString& maxIterations, const QString& precision); // Градиентный спуск
+    /**
+     * @brief Converts QString to QPointF.
+     * @param point The point as QString.
+     * @return Converted point as QPointF.
+     */
+    static QPointF toPoint(const QString& point);
+
+    /**
+     * @brief Computes gradient descent with given parameters.
+     * @param learningRate Learning rate as QString.
+     * @param maxIterations Maximum iterations as QString.
+     * @param precision Precision as QString.
+     * @return Result of gradient descent as QByteArray.
+     */
+    static QByteArray gradientDescent(const QString& learningRate, const QString& maxIterations, const QString& precision);
 };
 
 #endif // FUNCTIONS_FOR_SERVER_H
